@@ -11,8 +11,7 @@ const User = require("../model/User");
 router.get('/list', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
-        const list = user.shoppinglist;
-        res.send(list);
+        res.send(user.shoppinglist);
     } catch (e) {
       res.send({ message: 'Error in Fetching user' });
     }
@@ -34,9 +33,6 @@ router.post('/add', auth, async (req, res) => {
 router.delete('/delete', auth, async(req, res) => {
     try {
         const user = await User.findById(req.user.id);
-        if (user == null) {
-            return res.send(200).json({message: "lol"});
-        }
         const list = user.shoppinglist;
         const item = req.body.item;
         //remove this item from array 
@@ -52,6 +48,6 @@ router.delete('/delete', auth, async(req, res) => {
         res.send({ message: 'Error in deleting element' });
     }
 });
-//arr = arr.filter(e => e !== 'B');
+
 
 module.exports = router;
